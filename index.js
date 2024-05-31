@@ -47,14 +47,14 @@ io.on("connection", function(socket) {
                 //if move is valid then value of currentPlayer will be updated to next player.
                 currentPlayer = chess.turn();
 
-                //if move is valid then the frontend should be updated. And this will be send to all the clients
+                //if move is valid then the frontend move also should be updated. And this will be send to all the clients
                 io.emit("move", move);
-                console.log("move is:  ", move);
+                // console.log("move is:  ", move);
 
                 //new state of board will be send to the forntend using fen
                 //Forsyth–Edwards Notation (FEN) is a standard way to describe a chess board position in a single line of text. FEN is made up of ASCII characters and has six fields
                 io.emit("boardState", chess.fen());
-                console.log("fen is:  ", chess.fen());
+                // console.log("fen is:  ", chess.fen());
             } else {
                 console.log("Invalid move: ",move);
                 socket.emit("invalidMove", move);

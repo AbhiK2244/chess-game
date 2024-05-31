@@ -19,7 +19,7 @@ const renderBoard = () => {
             squareElement.dataset.row = rowIndex;
             squareElement.dataset.col = squareIndex;
 
-            if(square)
+            if(square) //square is either object datatype or null
             {
                 const pieceElement = document.createElement("div");
                 pieceElement.classList.add("piece", square.color === 'w' ? "white" : "black");
@@ -32,6 +32,7 @@ const renderBoard = () => {
                         draggedPiece = pieceElement;
                         sourceSquare = { row : rowIndex, col : squareIndex};
                         e.dataTransfer.setData("text/plain", "");   //for smooth running on cross browsers so that there won't be any problem dragging the element
+                        // The line e.dataTransfer.setData("text/plain", ""); is used to ensure that a drag-and-drop operation is properly recognized by the browser by setting some drag data, even if it is an empty string. This can be necessary for ensuring compatibility and functionality of drag-and-drop features across different browsers.
                     }
                 });
 
@@ -118,6 +119,11 @@ socket.on("boardState", (fen) => {
 socket.on("move", (move) => {
     chess.move(move);
     renderBoard();
+})
+
+socket.on("Invalid move", (move) => {
+    console.log("invalid move: ", move);
+    alert("Invalid move");
 })
 
 renderBoard();
